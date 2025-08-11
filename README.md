@@ -4,33 +4,54 @@ pipeline_tag: summarization
 ---
 # Model Card for Model ID
 
-<!-- Provide a quick summary of what the model is/does. -->
+The model used in this summarization task is a T5 summarization transformer-based language model fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
 
-This modelcard aims to be a base template for new models. It has been generated using [this raw template](https://github.com/huggingface/huggingface_hub/blob/main/src/huggingface_hub/templates/modelcard_template.md?plain=1).
 
 ## Model Details
+The model used in this summarization task is a Transformer-based language model (e.g., T5 or a similar model) fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
+Architecture:
 
-### Model Description
+    Model Type: Transformer-based encoder-decoder (e.g., T5 or BART)
 
-<!-- Provide a longer summary of what this model is. -->
+    Pretrained Model: The model uses a pretrained tokenizer and model from the Hugging Face transformers library (e.g., T5ForConditionalGeneration).
 
+    Tokenization: Text is tokenized using a subword tokenizer, where long words are split into smaller, meaningful subwords. This helps the model handle a wide variety of inputs, including rare or out-of-vocabulary words.
 
+    Input Processing: The model processes the input sequence by truncating or padding the text to fit within the max_input_length of 512 tokens.
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
+    Output Generation: The model generates the summary through a text generation process using beam search with a beam width of 4 to explore multiple possible summary sequences at each step.
 
-### Model Sources [optional]
+Key Parameters:
 
+    Max Input Length: 512 tokens — ensures the input text is truncated or padded to fit within the model's processing capacity.
+
+    Max Target Length: 128 tokens — restricts the length of the generated summary, balancing between concise output and content preservation.
+
+    Beam Search: Uses a beam width of 4 (num_beams=4) to explore multiple candidate sequences during generation, helping the model choose the most probable summary.
+
+    Early Stopping: The generation process stops early if the model predicts the end of the sequence before reaching the maximum target length.
+
+Generation Process:
+
+    Input Tokenization: The input text is tokenized into subword units and passed into the model.
+
+    Beam Search: The model generates the next token by considering the top 4 possible sequences at each step, aiming to find the most probable summary sequence.
+
+    Output Decoding: The generated summary is decoded from token IDs back into human-readable text using the tokenizer, skipping special tokens like padding or end-of-sequence markers.
+
+Objective:
+
+The model is designed for abstractive summarization, where the goal is to generate a summary that conveys the most important information from the input text in a fluent, concise manner, rather than simply extracting text.
+Performance:
+
+    The use of beam search improves the coherence and fluency of the generated summary by exploring multiple possibilities rather than relying on a single greedy prediction.
+
+    The model's output is typically evaluated using metrics such as ROUGE, which measures overlap with reference summaries, or other task-specific evaluation metrics.
+    
 <!-- Provide the basic links for the model. -->
 
-- **Repository:** [More Information Needed]
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
+- **Repository:** https://github.com/tcdickson/Text-Summarization.git
+
 
 ## Uses
 
@@ -74,125 +95,29 @@ Use the code below to get started with the model.
 
 ## Training Details
 
-### Training Data
+The summarization model was trained on a dataset of press releases scraped from various party websites. These press releases were selected to represent diverse political perspectives and topics, ensuring that the model learned to generate summaries across a wide range of political content.
+Data Collection:
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
+    Source: Press releases from official party websites, which often contain detailed statements, policy announcements, and responses to current events. These documents were chosen because of their structured format and consistent language use.
 
-[More Information Needed]
+    Preprocessing: The scraped text was cleaned and preprocessed, removing extraneous HTML tags, irrelevant information, and ensuring that the text content was well-formatted for model training.
 
-### Training Procedure
+    Text Format: The press releases were processed into suitable text pairs: the original full text as the input and a human-crafted summary (if available) or a custom summary generated by the developers as the target output.
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
+Training Objective:
 
-#### Preprocessing [optional]
+    The model was fine-tuned using these press releases to learn the task of abstractive summarization — generating concise, fluent summaries of longer political texts.
 
-[More Information Needed]
+    The model was trained to capture key information and context, while avoiding irrelevant details, ensuring that it could produce summaries that accurately reflect the essence of each release.
 
+Training Strategy:
 
-#### Training Hyperparameters
+    Supervised Learning: The model was trained using supervised learning, where each input (press release) was paired with a corresponding summary, enabling the model to learn the mapping from a long document to a short, concise summary.
 
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
+    Optimization: During training, the model's parameters were adjusted using gradient descent and the cross-entropy loss function, which penalizes incorrect predictions and encourages the generation of summaries that match the target.
 
-#### Speeds, Sizes, Times [optional]
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-[More Information Needed]
-
-## Evaluation
-
-<!-- This section describes the evaluation protocols and provides the results. -->
-
-### Testing Data, Factors & Metrics
-
-#### Testing Data
-
-<!-- This should link to a Dataset Card if possible. -->
-
-[More Information Needed]
-
-#### Factors
-
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
-
-[More Information Needed]
-
-#### Metrics
-
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
-
-[More Information Needed]
-
-### Results
-
-[More Information Needed]
-
-#### Summary
+This training process allowed the model to learn not only the specific language patterns commonly found in political press releases but also the broader context of political discourse.
 
 
 
-## Model Examination [optional]
 
-<!-- Relevant interpretability work for the model goes here -->
-
-[More Information Needed]
-
-## Environmental Impact
-
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
-
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
-
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
-
-## Technical Specifications [optional]
-
-### Model Architecture and Objective
-
-[More Information Needed]
-
-### Compute Infrastructure
-
-[More Information Needed]
-
-#### Hardware
-
-[More Information Needed]
-
-#### Software
-
-[More Information Needed]
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
-
-**BibTeX:**
-
-[More Information Needed]
-
-**APA:**
-
-[More Information Needed]
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-[More Information Needed]
-
-## More Information [optional]
-
-[More Information Needed]
-
-## Model Card Authors [optional]
-
-[More Information Needed]
-
-## Model Card Contact
-
-[More Information Needed]
