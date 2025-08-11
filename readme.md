@@ -1,7 +1,7 @@
 library_name: transformers
 pipeline_tag: summarization 
 tags:
-- t5
+- T5ForConditionalGeneration
 - pytorch
 
 # Text Summarization
