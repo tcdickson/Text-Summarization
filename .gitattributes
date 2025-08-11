@@ -1,3 +1,7 @@
 best_model_epoch_13/*.safetensors filter=lfs diff=lfs merge=lfs -text
-press_releases_consolidated.parquet filter=lfs diff=lfs merge=lfs -text
 best_model_epoch_13/spiece.model filter=lfs diff=lfs merge=lfs -text
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+press_releases_consolidated.parquet filter=lfs diff=lfs merge=lfs -text
