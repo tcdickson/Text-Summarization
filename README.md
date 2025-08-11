@@ -2,7 +2,7 @@
 library_name: transformers
 pipeline_tag: summarization
 ---
-# Model Card for Model ID
+# Text Summarization
 
 The model used in this summarization task is a T5 summarization transformer-based language model fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
 
@@ -11,87 +11,46 @@ The model used in this summarization task is a T5 summarization transformer-base
 The model used in this summarization task is a Transformer-based language model (e.g., T5 or a similar model) fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
 Architecture:
 
-    Model Type: Transformer-based encoder-decoder (e.g., T5 or BART)
+Model Type: Transformer-based encoder-decoder (e.g., T5 or BART)
 
-    Pretrained Model: The model uses a pretrained tokenizer and model from the Hugging Face transformers library (e.g., T5ForConditionalGeneration).
+Pretrained Model: The model uses a pretrained tokenizer and model from the Hugging Face transformers library (e.g., T5ForConditionalGeneration).
 
-    Tokenization: Text is tokenized using a subword tokenizer, where long words are split into smaller, meaningful subwords. This helps the model handle a wide variety of inputs, including rare or out-of-vocabulary words.
+Tokenization: Text is tokenized using a subword tokenizer, where long words are split into smaller, meaningful subwords. This helps the model handle a wide variety of inputs, including rare or out-of-vocabulary words.
 
-    Input Processing: The model processes the input sequence by truncating or padding the text to fit within the max_input_length of 512 tokens.
+Input Processing: The model processes the input sequence by truncating or padding the text to fit within the max_input_length of 512 tokens.
 
-    Output Generation: The model generates the summary through a text generation process using beam search with a beam width of 4 to explore multiple possible summary sequences at each step.
+Output Generation: The model generates the summary through a text generation process using beam search with a beam width of 4 to explore multiple possible summary sequences at each step.
 
 Key Parameters:
 
-    Max Input Length: 512 tokens — ensures the input text is truncated or padded to fit within the model's processing capacity.
+Max Input Length: 512 tokens — ensures the input text is truncated or padded to fit within the model's processing capacity.
 
-    Max Target Length: 128 tokens — restricts the length of the generated summary, balancing between concise output and content preservation.
+Max Target Length: 128 tokens — restricts the length of the generated summary, balancing between concise output and content preservation.
 
-    Beam Search: Uses a beam width of 4 (num_beams=4) to explore multiple candidate sequences during generation, helping the model choose the most probable summary.
+Beam Search: Uses a beam width of 4 (num_beams=4) to explore multiple candidate sequences during generation, helping the model choose the most probable summary.
 
-    Early Stopping: The generation process stops early if the model predicts the end of the sequence before reaching the maximum target length.
+Early Stopping: The generation process stops early if the model predicts the end of the sequence before reaching the maximum target length.
 
 Generation Process:
 
-    Input Tokenization: The input text is tokenized into subword units and passed into the model.
+Input Tokenization: The input text is tokenized into subword units and passed into the model.
 
-    Beam Search: The model generates the next token by considering the top 4 possible sequences at each step, aiming to find the most probable summary sequence.
+Beam Search: The model generates the next token by considering the top 10 possible sequences at each step, aiming to find the most probable summary sequence.
 
-    Output Decoding: The generated summary is decoded from token IDs back into human-readable text using the tokenizer, skipping special tokens like padding or end-of-sequence markers.
+Output Decoding: The generated summary is decoded from token IDs back into human-readable text using the tokenizer, skipping special tokens like padding or end-of-sequence markers.
 
 Objective:
 
 The model is designed for abstractive summarization, where the goal is to generate a summary that conveys the most important information from the input text in a fluent, concise manner, rather than simply extracting text.
 Performance:
 
-    The use of beam search improves the coherence and fluency of the generated summary by exploring multiple possibilities rather than relying on a single greedy prediction.
+The use of beam search improves the coherence and fluency of the generated summary by exploring multiple possibilities rather than relying on a single greedy prediction.
 
-    The model's output is typically evaluated using metrics such as ROUGE, which measures overlap with reference summaries, or other task-specific evaluation metrics.
+The model's output is evaluated using metrics such as ROUGE, which measures overlap with reference summaries, or other task-specific evaluation metrics.
     
-<!-- Provide the basic links for the model. -->
 
 - **Repository:** https://github.com/tcdickson/Text-Summarization.git
 
-
-## Uses
-
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
-
-### Direct Use
-
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
-
-[More Information Needed]
-
-### Downstream Use [optional]
-
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
-
-[More Information Needed]
-
-### Out-of-Scope Use
-
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
-
-[More Information Needed]
-
-## Bias, Risks, and Limitations
-
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
-
-[More Information Needed]
-
-### Recommendations
-
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
-
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
-
-## How to Get Started with the Model
-
-Use the code below to get started with the model.
-
-[More Information Needed]
 
 ## Training Details
 
