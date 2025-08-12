@@ -69,4 +69,12 @@ This training process allowed the model to learn not only the specific language 
 
 
 
+## Citation:
 
+@article{dickson2024going,
+  title={Going against the grain: Climate change as a wedge issue for the radical right},
+  author={Dickson, Zachary P and Hobolt, Sara B},
+  journal={Comparative Political Studies},
+  year={2024},
+  publisher={SAGE Publications Sage CA: Los Angeles, CA}
+}
