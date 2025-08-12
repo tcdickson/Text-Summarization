@@ -4,18 +4,17 @@ pipeline_tag: summarization
 ---
 # Text Summarization
 
-The model used in this summarization task is a T5 summarization transformer-based language model fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
+The model used in this summarization task is a T5 summarization transformer-based language model fine-tuned for abstractive summarization. 
 
+This model is intended to summarize political texts regarding generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
+
+The model was fine-tuned on 10k political party press releases from 66 parties in 12 different countries via an abstract summary. 
 
 ## Model Details
-The model used in this summarization task is a Transformer-based language model (e.g., T5 or a similar model) fine-tuned for abstractive summarization. The model generates summaries by treating text summarization as a text-to-text problem, where both the input and the output are sequences of text.
-Architecture:
-
-Model Type: Transformer-based encoder-decoder (e.g., T5 or BART)
 
 Pretrained Model: The model uses a pretrained tokenizer and model from the Hugging Face transformers library (e.g., T5ForConditionalGeneration).
 
-Tokenization: Text is tokenized using a subword tokenizer, where long words are split into smaller, meaningful subwords. This helps the model handle a wide variety of inputs, including rare or out-of-vocabulary words.
+Tokenization: Text is tokenized using a subword tokenizer, where long words are split into smaller, meaningful subwords.
 
 Input Processing: The model processes the input sequence by truncating or padding the text to fit within the max_input_length of 512 tokens.
 
@@ -27,7 +26,7 @@ Max Input Length: 512 tokens — ensures the input text is truncated or padded t
 
 Max Target Length: 128 tokens — restricts the length of the generated summary, balancing between concise output and content preservation.
 
-Beam Search: Uses a beam width of 4 (num_beams=4) to explore multiple candidate sequences during generation, helping the model choose the most probable summary.
+Beam Search: Uses a beam width of 10 to explore multiple candidate sequences during generation, helping the model choose the most probable summary.
 
 Early Stopping: The generation process stops early if the model predicts the end of the sequence before reaching the maximum target length.
 
@@ -38,16 +37,7 @@ Input Tokenization: The input text is tokenized into subword units and passed in
 Beam Search: The model generates the next token by considering the top 10 possible sequences at each step, aiming to find the most probable summary sequence.
 
 Output Decoding: The generated summary is decoded from token IDs back into human-readable text using the tokenizer, skipping special tokens like padding or end-of-sequence markers.
-
-Objective:
-
-The model is designed for abstractive summarization, where the goal is to generate a summary that conveys the most important information from the input text in a fluent, concise manner, rather than simply extracting text.
-Performance:
-
-The use of beam search improves the coherence and fluency of the generated summary by exploring multiple possibilities rather than relying on a single greedy prediction.
-
-The model's output is evaluated using metrics such as ROUGE, which measures overlap with reference summaries, or other task-specific evaluation metrics.
-    
+   
 
 - **Repository:** https://github.com/tcdickson/Text-Summarization.git
 
@@ -71,9 +61,9 @@ The model was trained to capture key information and context, while avoiding irr
 
 Training Strategy:
 
-Supervised Learning: The model was trained using supervised learning, where each input (press release) was paired with a corresponding summary, enabling the model to learn the mapping from a long document to a short, concise summary.
+Supervised Learning: The model was trained using supervised learning, where each input (press release) was paired with a corresponding summary.
 
-Optimization: During training, the model's parameters were adjusted using gradient descent and the cross-entropy loss function, which penalizes incorrect predictions and encourages the generation of summaries that match the target.
+Optimization: During training, the model's parameters were adjusted using gradient descent and the cross-entropy loss function.
 
 This training process allowed the model to learn not only the specific language patterns commonly found in political press releases but also the broader context of political discourse.
 
